@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: parksmap
+  labels:
+    app: national-parks-app
+    component: parksmap
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: national-parks-app
+      component: parksmap
+  template:
+    metadata:
+      labels:
+        app: national-parks-app
+        component: parksmap
+    spec:
+      containers:
+      - name: parksmap
+        image: quay.io/openshiftroadshow/parksmap:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          protocol: TCP

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-nationalparks
+  labels:
+    app: national-parks-app
+    component: mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: national-parks-app
+      component: mongodb
+  template:
+    metadata:
+      labels:
+        app: national-parks-app
+        component: mongodb
+    spec:
+      containers:
+      - name: mongodb-nationalparks
+        image: registry.redhat.io/rhmap47/mongodb@sha256:198aeb78f2d1da428f6ae98153904e26e1d84bbcfa8a46a65b12bb5a846f7d76
+        env:
+        - name: MONGODB_ADMIN_PASSWORD
+          value: mongodb
+        - name: MONGODB_DATABASE
+          value: mongodb
+        - name: MONGODB_PASSWORD
+          value: mongodb
+        - name: MONGODB_USER
+          value: mongodb
+        ports:
+        - containerPort: 27017
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /var/lib/mongodb/data
+          name: mongodb-data
+      volumes:
+      - name: mongodb-data
+        emptyDir: {}

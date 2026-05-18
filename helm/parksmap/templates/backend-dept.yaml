@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nationalparks
+  labels:
+    app: national-parks-app
+    component: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: national-parks-app
+      component: backend
+  template:
+    metadata:
+      labels:
+        app: national-parks-app
+        component: backend
+    spec:
+      containers:
+      - name: nationalparks
+        image: quay.io/openshiftroadshow/nationalparks-py:latest
+        env:
+        - name: DATABASE_SERVICE_NAME
+          valueFrom:
+            secretKeyRef:
+              key: DATABASE_SERVICE_NAME
+              name: nationalparks-mongodb-parameters
+        - name: MONGODB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              key: MONGODB_DATABASE
+              name: nationalparks-mongodb-parameters
+        - name: MONGODB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: MONGODB_PASSWORD
+              name: nationalparks-mongodb-parameters
+        - name: MONGODB_USER
+          valueFrom:
+            secretKeyRef:
+              key: MONGODB_USER
+              name: nationalparks-mongodb-parameters
+        ports:
+        - containerPort: 8080
+          protocol: TCP

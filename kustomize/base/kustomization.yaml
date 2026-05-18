@@ -1,0 +1,8 @@
+resources:
+  - backend-dept.yaml
+  - frontend-dept.yaml
+  - mongodb-dept.yaml
+  - rolebinding.yaml
+  - routes.yaml
+  - secrets.yaml
+  - services.yaml

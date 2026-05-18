@@ -1,0 +1,7 @@
+image:
+  repository: quay.io/openshiftroadshow/parksmap
+  tag: latest
+replicaCount: 1
+service:
+  port: 8080
+  type: ClusterIP

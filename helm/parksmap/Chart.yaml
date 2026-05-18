@@ -1,0 +1,7 @@
+# helm/parksmap/Chart.yaml
+apiVersion: v2
+name: parksmap
+description: Helm chart para el despliegue de Parksmap en el Workshop
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

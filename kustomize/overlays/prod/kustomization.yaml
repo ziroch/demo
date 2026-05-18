@@ -1,0 +1,10 @@
+resources:
+  - ../../base
+namePrefix: prod-
+
+# Ejemplo para el Lab: Escalar producción a 3 réplicas
+replicas:
+  - name: parksmap
+    count: 3
+  - name: nationalparks
+    count: 2

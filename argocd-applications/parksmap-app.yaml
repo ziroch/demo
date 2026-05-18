@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: parksmap-workshop
+  namespace: openshift-gitops
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/ziroch
+    targetRevision: HEAD
+    path: helm/parksmap # O kustomize/overlays/dev
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: workshop-parksmap
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

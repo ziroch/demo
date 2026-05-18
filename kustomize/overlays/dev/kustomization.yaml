@@ -1,0 +1,10 @@
+resources:
+  - ../../base
+
+# Esto añadirá un prefijo a todos los recursos para diferenciar el entorno
+namePrefix: dev-
+
+# Aquí es donde los alumnos practicarán cambiar la imagen en el Lab D
+images:
+  - name: quay.io/openshiftroadshow/parksmap
+    newTag: "latest"
