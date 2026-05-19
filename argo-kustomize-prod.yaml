@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: parksmap-kustomize-admin
+  name: parksmap-prod-kustomize-admin
   namespace: openshift-gitops
   labels:
     workshop: openshift-gitops
@@ -14,7 +14,7 @@ spec:
     path: kustomize/overlays/prod      # Argo CD detecta kustomization.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: parksmap-kustomize-admin
+    namespace: parksmap-prod-kustomize-admin
   syncPolicy:
     automated:
       prune: true

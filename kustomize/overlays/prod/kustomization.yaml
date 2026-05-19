@@ -7,3 +7,15 @@ replicas:
     count: 3
   - name: nationalparks
     count: 2
+
+# Definir el host personalizado para el route de parksmap
+patches:
+  - target:
+      group: route.openshift.io
+      version: v1
+      kind: Route
+      name: parksmap
+    patch: |-
+      - op: add
+        path: /spec/host
+        value: parksmap-prod.apps.cluster-qhbwr.qhbwr.sandbox1923.opentlc.com
