@@ -32,7 +32,6 @@ spec:
   selector:
     app: national-parks-app
     component: backend
-    deployment: nationalparks
 ---
 apiVersion: v1
 kind: Service
