@@ -22,10 +22,7 @@ spec:
         image: quay.io/openshiftroadshow/nationalparks-py:latest
         env:
         - name: DATABASE_SERVICE_NAME
-          valueFrom:
-            secretKeyRef:
-              key: DATABASE_SERVICE_NAME
-              name: nationalparks-mongodb-parameters
+          value: PLACEHOLDER  # Kustomize reemplazará esto
         - name: MONGODB_DATABASE
           valueFrom:
             secretKeyRef:
