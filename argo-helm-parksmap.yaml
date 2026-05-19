@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: parksmap-helm-admin
+  name: parksmap-helm-usuario
   namespace: openshift-gitops
 spec:
   project: default
@@ -15,7 +15,7 @@ spec:
           value: "1"
   destination:
     server: https://kubernetes.default.svc
-    namespace: workshop-admin
+    namespace: workshop-usuario
   syncPolicy:
     automated:
       prune: true
