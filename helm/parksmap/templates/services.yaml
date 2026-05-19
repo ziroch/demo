@@ -49,4 +49,3 @@ spec:
   selector:
     app: national-parks-app
     component: parksmap
-    deployment: parksmap
