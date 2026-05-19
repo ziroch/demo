@@ -11,8 +11,8 @@ spec:
     port: 27017
     targetPort: 27017
   selector:
-    app.kubernetes.io/name: mongodb
-    app.kubernetes.io/part-of: national-parks-app
+    app: national-parks-app
+    component: mongodb
 ---
 apiVersion: v1
 kind: Service
