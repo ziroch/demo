@@ -11,7 +11,7 @@ metadata:
   name: nationalparks
 spec:
   port:
-    targetPort: 8080-tcp
+    targetPort: http
   tls:
     termination: edge
   to:
@@ -31,7 +31,7 @@ metadata:
   name: parksmap
 spec:
   port:
-    targetPort: 8080-tcp
+    targetPort: http
   tls:
     termination: edge
   to:
