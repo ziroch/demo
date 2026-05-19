@@ -1,19 +1,42 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: parksmap
   labels:
     app: national-parks-app
-    component: parksmap
+    app.kubernetes.io/name: python
+    app.kubernetes.io/part-of: national-parks-app
+    component: nationalparks
+    role: backend
+    type: parksmap-backend
+  name: nationalparks
 spec:
-  path: /
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: nationalparks
+    weight: 100
+  wildcardPolicy: None
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: national-parks-app
+    app.kubernetes.io/part-of: national-parks-app
+    component: parksmap
+    role: frontend
+  name: parksmap
+spec:
+  port:
+    targetPort: http
+  tls:
+    termination: edge
   to:
     kind: Service
     name: parksmap
     weight: 100
-  port:
-    targetPort: 8080-tcp
-  tls:
-    termination: edge
-    insecureEdgeTerminationPolicy: Redirect
   wildcardPolicy: None
+

@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: parksmap-kustomize-<usuario>
+  namespace: openshift-gitops
+  labels:
+    workshop: openshift-gitops
+    lab: kustomize
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/ziroch/demo.git
+    targetRevision: main
+    path: kustomize/overlays/dev      # Argo CD detecta kustomization.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: parksmap-kustomize-<usuario>
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+ 
