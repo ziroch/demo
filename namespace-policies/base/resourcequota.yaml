@@ -20,8 +20,7 @@ spec:
     configmaps: "50"
     # OpenShift específico
     count/routes.route.openshift.io: "20"
-    
-Política 3: LimitRange (límites por container individual):
+---    
 # demo/namespace-policies/base/limitrange.yaml
 apiVersion: v1
 kind: LimitRange
