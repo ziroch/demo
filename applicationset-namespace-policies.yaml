@@ -1,0 +1,50 @@
+# APLICAR ESTE MANIFIESTO SOLO UNA VEZ — gestiona todo el ciclo de vida
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: namespace-policies
+  namespace: openshift-gitops
+  labels:
+    platform: policies
+spec:
+  # Estrategia de sincronización de Applications generadas
+  syncPolicy:
+    preserveResourcesOnDeletion: false  # borrar la App borra los recursos
+  generators:
+  - git:
+      repoURL: https://github.com/ziroch/demo.git
+      revision: main
+      directories:
+      - path: "namespace-policies/namespaces/*"
+      # Cada directorio bajo namespaces/ = una Application
+      # Si se agrega namespace-policies/namespaces/team-gamma/
+      # Argo CD crea automáticamente la Application "policy-team-gamma"
+  template:
+    metadata:
+      # Nombre de la Application: policy-<nombre-del-directorio>
+      name: "policy-{{path.basename}}"
+      namespace: openshift-gitops
+      labels:
+        platform: namespace-policy
+        managed-namespace: "{{path.basename}}"
+      annotations:
+        argocd.argoproj.io/sync-wave: "-10"  # políticas SIEMPRE primero
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/ziroch/demo.git
+        targetRevision: main
+        path: "{{path}}"    # path completo al directorio del namespace
+      destination:
+        server: https://kubernetes.default.svc
+        # El namespace target está definido en el kustomization.yaml del overlay
+        namespace: "{{path.basename}}"
+      syncPolicy:
+        automated:
+          prune: true        # si se borra el directorio de Git, se borran los recursos
+          selfHeal: true    # cualquier modificación manual es revertida
+        syncOptions:
+          - CreateNamespace=true   # crea el namespace si no existe
+          - PrunePropagationPolicy=foreground
+          - PruneLast=true
+          

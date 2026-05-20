@@ -1,0 +1,38 @@
+# Equipo Alpha: desarrollo frontend — necesita más memoria, menos CPU
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+namespace: team-alpha    # aplica todos los recursos a este namespace
+patches:
+  # Patch para el RoleBinding: reemplazar el grupo placeholder
+  - target:
+      kind: RoleBinding
+      name: team-namespace-edit
+    patch: |-
+      - op: replace
+        path: /subjects/0/name
+        value: "team-alpha-developers"    # grupo de LDAP/OpenShift
+  # Patch para ajustar las cuotas del equipo Alpha
+  - target:
+      kind: ResourceQuota
+      name: namespace-compute-quota
+    patch: |-
+      - op: replace
+        path: /spec/hard/requests.memory
+        value: "16Gi"     # más memoria para el equipo de frontend
+      - op: replace
+        path: /spec/hard/limits.memory
+        value: "32Gi"
+  # NetworkPolicy adicional: permitir ingress desde el ingress controller
+  - target:
+      kind: NetworkPolicy
+      name: deny-all-default
+    patch: |-
+      - op: add
+        path: /spec/ingress
+        value:
+          - from:
+            - namespaceSelector:
+                matchLabels:
+                  kubernetes.io/metadata.name: openshift-ingress

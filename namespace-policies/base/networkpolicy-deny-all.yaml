@@ -1,0 +1,57 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all-default
+  labels:
+    policy-type: baseline
+    managed-by: argocd
+spec:
+  podSelector: {}    # aplica a TODOS los pods del namespace
+  policyTypes:
+  - Ingress
+  - Egress
+  # Sin reglas = todo denegado
+  # Los equipos deben agregar NetworkPolicies adicionales
+  # para permitir tráfico específico
+---
+# NetworkPolicy para permitir tráfico interno del mismo namespace
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-same-namespace
+  labels:
+    policy-type: baseline
+    managed-by: argocd
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector: {}    # pods del mismo namespace pueden comunicarse
+  egress:
+  - to:
+    - podSelector: {}    # pods del mismo namespace pueden comunicarse
+---
+# NetworkPolicy para permitir acceso desde el namespace de monitoreo
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-from-monitoring
+  labels:
+    policy-type: baseline
+    managed-by: argocd
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: openshift-monitoring
+    ports:
+    - port: 8080      # scraping de métricas por Prometheus
+    - port: 9090
+

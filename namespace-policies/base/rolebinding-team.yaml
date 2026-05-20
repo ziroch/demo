@@ -1,0 +1,15 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: team-namespace-edit
+  labels:
+    policy-type: baseline
+    managed-by: argocd
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: edit    # permite crear/editar recursos pero no RoleBindings
+subjects:
+- kind: Group
+  apiGroup: rbac.authorization.k8s.io
+  name: TEAM_GROUP_PLACEHOLDER    # será reemplazado por patch del overlay
