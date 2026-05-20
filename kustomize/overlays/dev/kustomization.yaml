@@ -1,5 +1,6 @@
 resources:
   - ../../base
+  - limitrange.yaml
 
 
 # Esto añadirá un prefijo a todos los recursos para diferenciar el entorno
