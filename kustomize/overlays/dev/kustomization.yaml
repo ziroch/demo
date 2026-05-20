@@ -27,4 +27,4 @@ replacements:
 # Aquí es donde los alumnos practicarán cambiar la imagen en el Lab D
 images:
   - name: quay.io/openshiftroadshow/parksmap
-    newTag: "1.3.0"
+    newTag: "latest"
