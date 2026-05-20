@@ -1,0 +1,30 @@
+resources:
+  - ../../base
+  - limitrange.yaml
+
+# Esto añadirá un prefijo a todos los recursos para diferenciar el entorno
+namePrefix: dev-
+
+# Configuración para que namePrefix actualice las referencias en Routes
+configurations:
+  - kustomizeconfig.yaml
+
+# Reemplazar la variable DATABASE_SERVICE_NAME en el Deployment
+replacements:
+  - source:
+      kind: Service
+      name: mongodb-nationalparks  # Nombre original en base
+      fieldPath: metadata.name
+    targets:
+      - select:
+          kind: Deployment
+          name: nationalparks  # Nombre de tu Deployment
+        fieldPaths:
+          - spec.template.spec.containers.[name=nationalparks].env.[name=DATABASE_SERVICE_NAME].value
+        options:
+          create: true
+
+# Aquí es donde los alumnos practicarán cambiar la imagen en el Lab D
+images:
+  - name: quay.io/openshiftroadshow/parksmap
+    newTag: "1.3.0"
